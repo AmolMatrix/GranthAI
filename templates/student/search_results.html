@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Search Results - GranthAI{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <h1><i class="bi bi-search"></i> Search Results</h1>
+  <form action="{{ url_for('student.search') }}" method="get" class="row g-2 mt-3">
+    <div class="col-md-6">
+      <input type="text" name="q" value="{{ query }}" class="form-control form-control-lg" placeholder="Search by title or concept...">
+    </div>
+    <div class="col-md-3">
+      <select name="department" class="form-select form-select-lg">
+        <option value="">All Departments</option>
+        {% for d in departments %}
+          <option value="{{ d }}" {% if department == d %}selected{% endif %}>{{ d }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-gold btn-lg w-100"><i class="bi bi-search"></i> Search</button>
+    </div>
+  </form>
+</div>
+
+{% if query %}
+  <h4 class="section-title"><i class="bi bi-bookmark"></i> Matching by Title</h4>
+  <div class="row g-3 mb-4">
+    {% for book in title_matches %}
+      {% include 'student/_book_card.html' %}
+    {% else %}
+      <p class="text-muted">No title matched "{{ query }}".</p>
+    {% endfor %}
+  </div>
+
+  <h4 class="section-title"><i class="bi bi-lightbulb"></i> Matching by Concept / Topic</h4>
+  <div class="row g-3 mb-4">
+    {% for book, score in concept_matches %}
+      <div class="col-md-4">
+        <a href="{{ url_for('student.book_detail', book_id=book.id) }}" class="text-decoration-none text-dark">
+          <div class="card-book p-3 d-flex flex-row">
+            <div class="book-spine me-3"></div>
+            <div>
+              <div class="card-title mb-1"><i class="bi bi-book"></i> {{ book.title }}</div>
+              <div class="small text-muted mb-1">by {{ book.author or 'N/A' }}</div>
+              <div class="mb-2">
+                {% if book.department %}<span class="badge badge-dept me-1">{{ book.department }}</span>{% endif %}
+                <span class="badge badge-level-{{ book.level }}">{{ book.level }}</span>
+              </div>
+              <div class="small">
+                {% if book.is_available %}
+                  <span class="availability-dot dot-available"></span>Available ({{ book.available_copies }})
+                {% else %}
+                  <span class="availability-dot dot-unavailable"></span>Issued Out
+                {% endif %}
+                &middot; <i class="bi bi-geo-alt"></i> {{ book.shelf_location }}
+              </div>
+              <div class="small text-muted mt-1">Relevance: {{ "%.0f"|format(score * 100) }}%</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% else %}
+      <p class="text-muted">No concept match found. Try a different keyword.</p>
+    {% endfor %}
+  </div>
+{% else %}
+  <h4 class="section-title"><i class="bi bi-collection"></i> {{ department }} Catalog</h4>
+  <div class="row g-3 mb-4">
+    {% for book in title_matches %}
+      {% include 'student/_book_card.html' %}
+    {% else %}
+      <p class="text-muted">No items found in this department yet.</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<a href="{{ url_for('student.dashboard') }}" class="btn btn-outline-secondary">&larr; Back to Dashboard</a>
+{% endblock %}

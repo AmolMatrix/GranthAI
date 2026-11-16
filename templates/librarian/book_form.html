@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit' if book else 'Add' }} Item - GranthAI{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <h1><i class="bi bi-{{ 'pencil-square' if book else 'plus-circle' }}"></i> {{ 'Edit' if book else 'Add New' }} Catalog Item</h1>
+</div>
+
+<div class="card-book p-4">
+  <form method="post">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Title</label>
+        <input type="text" name="title" class="form-control" value="{{ book.title if book else '' }}" required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Author</label>
+        <input type="text" name="author" class="form-control" value="{{ book.author if book else '' }}">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Type</label>
+        <select name="item_type" class="form-select">
+          <option value="book" {% if book and book.item_type == 'book' %}selected{% endif %}>Book</option>
+          <option value="magazine" {% if book and book.item_type == 'magazine' %}selected{% endif %}>Magazine</option>
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Department</label>
+        <select name="department" class="form-select">
+          <option value="">N/A (e.g. magazine)</option>
+          {% for d in departments %}
+            <option value="{{ d }}" {% if book and book.department == d %}selected{% endif %}>{{ d }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Level</label>
+        <select name="level" class="form-select">
+          <option value="Beginner" {% if book and book.level == 'Beginner' %}selected{% endif %}>Beginner</option>
+          <option value="Intermediate" {% if not book or book.level == 'Intermediate' %}selected{% endif %}>Intermediate</option>
+          <option value="Advanced" {% if book and book.level == 'Advanced' %}selected{% endif %}>Advanced</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Total Copies</label>
+        <input type="number" name="total_copies" min="1" class="form-control" value="{{ book.total_copies if book else 1 }}" required>
+        {% if book %}<small class="text-muted">Available copies adjust automatically if you change this.</small>{% endif %}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Shelf Location</label>
+        <input type="text" name="shelf_location" class="form-control" placeholder="e.g. Rack A2, Shelf 3" value="{{ book.shelf_location if book else '' }}">
+      </div>
+      <div class="col-12">
+        <label class="form-label">Content / Keywords (used by the search engine)</label>
+        <textarea name="content" rows="4" class="form-control" placeholder="Topics, keywords, description...">{{ book.content if book else '' }}</textarea>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-granthai mt-4"><i class="bi bi-check-circle"></i> {{ 'Update' if book else 'Save' }} Item</button>
+    <a href="{{ url_for('librarian.books_list') }}" class="btn btn-outline-secondary mt-4">Cancel</a>
+  </form>
+</div>
+
+{% endblock %}

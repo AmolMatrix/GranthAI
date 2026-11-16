@@ -1,0 +1,177 @@
+/* GranthAI - Library themed styling */
+
+:root {
+    --maroon: #6B2C2C;
+    --maroon-dark: #4A1E1E;
+    --gold: #C9A227;
+    --gold-light: #E8CF7A;
+    --cream: #FAF6EC;
+    --wood: #3E2723;
+    --forest: #2E5339;
+    --ink: #2B2420;
+}
+
+body {
+    background-color: var(--cream);
+    color: var(--ink);
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+}
+
+h1, h2, h3, h4, .brand-font {
+    font-family: 'Merriweather', Georgia, serif;
+}
+
+/* Navbar */
+.navbar-granthai {
+    background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-dark) 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.navbar-granthai .navbar-brand {
+    color: var(--gold-light) !important;
+    font-family: 'Merriweather', serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+}
+.navbar-granthai .nav-link {
+    color: #f1e9da !important;
+    font-weight: 500;
+}
+.navbar-granthai .nav-link:hover {
+    color: var(--gold-light) !important;
+}
+.navbar-granthai .nav-link.active {
+    color: var(--gold-light) !important;
+    border-bottom: 2px solid var(--gold);
+}
+
+/* Hero / page header band */
+.page-hero {
+    background: linear-gradient(120deg, var(--wood) 0%, var(--maroon) 100%);
+    color: #fff;
+    border-radius: 14px;
+    padding: 2rem 2rem;
+    margin-bottom: 1.75rem;
+}
+.page-hero h1 {
+    color: var(--gold-light);
+    margin-bottom: 0.25rem;
+}
+.page-hero p {
+    color: #eee0c8;
+    margin-bottom: 0;
+}
+
+/* Cards */
+.card-book {
+    border: 1px solid #e6dcc6;
+    border-radius: 12px;
+    background: #fff;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    height: 100%;
+}
+.card-book:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(107, 44, 44, 0.15);
+}
+.book-spine {
+    width: 10px;
+    border-radius: 6px 0 0 6px;
+    background: var(--gold);
+}
+.card-book .card-title {
+    font-family: 'Merriweather', serif;
+    font-size: 1.05rem;
+    color: var(--maroon-dark);
+}
+.badge-level-Beginner { background-color: #4C8C4A; }
+.badge-level-Intermediate { background-color: #C9A227; color: #3a2f00; }
+.badge-level-Advanced { background-color: #6B2C2C; }
+.badge-dept {
+    background-color: #EFE6D0;
+    color: var(--maroon-dark);
+    font-weight: 500;
+}
+
+.stat-card {
+    border-radius: 14px;
+    padding: 1.25rem;
+    color: #fff;
+    height: 100%;
+}
+.stat-card .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: 'Merriweather', serif;
+}
+.stat-maroon { background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-dark) 100%); }
+.stat-gold { background: linear-gradient(135deg, #C9A227 0%, #A8841C 100%); }
+.stat-forest { background: linear-gradient(135deg, #2E5339 0%, #1F3B27 100%); }
+.stat-wood { background: linear-gradient(135deg, #3E2723 0%, #241412 100%); }
+
+.section-title {
+    font-family: 'Merriweather', serif;
+    color: var(--maroon-dark);
+    border-bottom: 2px solid var(--gold);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.btn-granthai {
+    background-color: var(--maroon);
+    color: #fff;
+    border: none;
+}
+.btn-granthai:hover {
+    background-color: var(--maroon-dark);
+    color: var(--gold-light);
+}
+.btn-gold {
+    background-color: var(--gold);
+    border: none;
+    color: var(--wood);
+    font-weight: 600;
+}
+.btn-gold:hover {
+    background-color: var(--gold-light);
+    color: var(--wood);
+}
+
+.announcement-item {
+    border-left: 4px solid var(--gold);
+    background: #fffdf7;
+    padding: 0.75rem 1rem;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 0.75rem;
+}
+
+.availability-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+.dot-available { background-color: #4C8C4A; }
+.dot-unavailable { background-color: #B94A48; }
+
+.auth-card {
+    max-width: 440px;
+    margin: 3rem auto;
+    background: #fff;
+    border-radius: 16px;
+    padding: 2.25rem;
+    box-shadow: 0 10px 30px rgba(62, 39, 35, 0.15);
+}
+.auth-card h2 {
+    color: var(--maroon-dark);
+}
+
+footer.granthai-footer {
+    background: var(--wood);
+    color: #d8c9a8;
+    padding: 1.25rem 0;
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.9rem;
+}

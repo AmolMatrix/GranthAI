@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}{{ book.title }} - GranthAI{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <h1><i class="bi bi-book"></i> {{ book.title }}</h1>
+  <p>by {{ book.author or 'Unknown' }}</p>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card-book p-4 mb-4">
+      <div class="mb-3">
+        {% if book.department %}<span class="badge badge-dept me-1">{{ book.department }}</span>{% endif %}
+        <span class="badge badge-level-{{ book.level }}">{{ book.level }}</span>
+        <span class="badge bg-secondary">{{ book.item_type|capitalize }}</span>
+      </div>
+      <p>{{ book.content }}</p>
+      <hr>
+      <div class="row">
+        <div class="col-sm-6 mb-2"><i class="bi bi-geo-alt"></i> <strong>Shelf Location:</strong> {{ book.shelf_location }}</div>
+        <div class="col-sm-6 mb-2"><i class="bi bi-stack"></i> <strong>Total Copies:</strong> {{ book.total_copies }}</div>
+        <div class="col-sm-6 mb-2">
+          {% if book.is_available %}
+            <span class="availability-dot dot-available"></span><strong>Available Copies:</strong> {{ book.available_copies }}
+          {% else %}
+            <span class="availability-dot dot-unavailable"></span><strong>Status:</strong> All copies issued out
+          {% endif %}
+        </div>
+        <div class="col-sm-6 mb-2"><i class="bi bi-eye"></i> <strong>Viewed:</strong> {{ book.view_count }} times</div>
+      </div>
+
+      {% if not book.is_available %}
+        <hr>
+        {% if already_reserved %}
+          <p class="text-success mb-0"><i class="bi bi-check-circle"></i> You're on the waitlist for this item.</p>
+        {% else %}
+          <form method="post" action="{{ url_for('student.reserve', book_id=book.id) }}">
+            <button type="submit" class="btn btn-gold"><i class="bi bi-bookmark-plus"></i> Join Waitlist</button>
+          </form>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <h5 class="section-title"><i class="bi bi-shuffle"></i> Similar Items</h5>
+    {% for sim in similar_books %}
+      <a href="{{ url_for('student.book_detail', book_id=sim.id) }}" class="text-decoration-none text-dark">
+        <div class="card-book p-2 mb-2">
+          <strong>{{ sim.title }}</strong><br>
+          <small class="text-muted">{{ sim.department or sim.item_type|capitalize }}</small>
+        </div>
+      </a>
+    {% else %}
+      <p class="text-muted small">No similar items found.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<a href="{{ url_for('student.dashboard') }}" class="btn btn-outline-secondary">&larr; Back to Dashboard</a>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - GranthAI{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <h1><i class="bi bi-search"></i> Find the right book, instantly</h1>
+  <p>Search by title or by a concept/topic - GranthAI ranks results using NLP, TF-IDF and Cosine Similarity.</p>
+  <form action="{{ url_for('student.search') }}" method="get" class="row g-2 mt-3">
+    <div class="col-md-6">
+      <input type="text" name="q" class="form-control form-control-lg" placeholder="e.g. 'normalization', 'thermodynamics', 'pharmacology'...">
+    </div>
+    <div class="col-md-3">
+      <select name="department" class="form-select form-select-lg">
+        <option value="">All Departments</option>
+        {% for d in departments %}
+          <option value="{{ d }}" {% if user.department == d %}selected{% endif %}>{{ d }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-3">
+      <button type="submit" class="btn btn-gold btn-lg w-100"><i class="bi bi-search"></i> Search</button>
+    </div>
+  </form>
+</div>
+
+<div class="row mb-4 g-3">
+  <div class="col-md-3">
+    <div class="stat-card stat-maroon">
+      <div class="stat-number">{{ my_issued|length }}</div>
+      <div>Books Currently With You</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stat-card stat-gold">
+      <div class="stat-number">{{ recent_books|length }}</div>
+      <div>New Arrivals</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stat-card stat-forest">
+      <div class="stat-number">{{ magazines|length }}</div>
+      <div>Magazines Available</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stat-card stat-wood">
+      <div class="stat-number">{{ announcements|length }}</div>
+      <div>Latest Announcements</div>
+    </div>
+  </div>
+</div>
+
+{% if my_issued %}
+<h4 class="section-title"><i class="bi bi-bookmark-check"></i> Books Currently With You</h4>
+<div class="row g-3 mb-4">
+  {% for record in my_issued %}
+  <div class="col-md-4">
+    <div class="card-book p-3">
+      <strong>{{ record.book.title }}</strong><br>
+      <small class="text-muted">Issued on {{ record.issued_on.strftime('%d %b %Y') }}</small>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if recommendations %}
+<h4 class="section-title"><i class="bi bi-stars"></i> Recommended For You</h4>
+<p class="text-muted small mt-n2">Based on your recent searches</p>
+<div class="row g-3 mb-4">
+  {% for book in recommendations %}
+    {% include 'student/_book_card.html' %}
+  {% endfor %}
+</div>
+{% endif %}
+
+<h4 class="section-title"><i class="bi bi-fire"></i> Trending in the Library</h4>
+<div class="row g-3 mb-4">
+  {% for book in trending %}
+    {% include 'student/_book_card.html' %}
+  {% else %}
+    <p class="text-muted">Not enough activity yet.</p>
+  {% endfor %}
+</div>
+
+<h4 class="section-title"><i class="bi bi-journal-plus"></i> Newly Added Books</h4>
+<div class="row g-3 mb-4">
+  {% for book in recent_books %}
+    {% include 'student/_book_card.html' %}
+  {% endfor %}
+</div>
+
+<h4 class="section-title"><i class="bi bi-newspaper"></i> Magazines Available</h4>
+<div class="row g-3 mb-4">
+  {% for book in magazines %}
+    {% include 'student/_book_card.html' %}
+  {% else %}
+    <p class="text-muted">No magazines added yet.</p>
+  {% endfor %}
+</div>
+
+<h4 class="section-title"><i class="bi bi-megaphone"></i> Library Announcements</h4>
+{% if announcements %}
+  {% for a in announcements %}
+    <div class="announcement-item">
+      <strong>{{ a.title }}</strong>
+      {% if a.event_date %}<span class="text-muted small">&mdash; {{ a.event_date.strftime('%d %b %Y') }}</span>{% endif %}
+      <p class="mb-0">{{ a.message }}</p>
+    </div>
+  {% endfor %}
+{% else %}
+  <p class="text-muted">No announcements right now.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}My History - GranthAI{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <h1><i class="bi bi-clock-history"></i> My History</h1>
+  <p>Your past searches and borrowed books</p>
+</div>
+
+<h4 class="section-title"><i class="bi bi-search"></i> Search History</h4>
+<div class="table-responsive mb-4">
+  <table class="table table-striped bg-white">
+    <thead><tr><th>Query</th><th>Department Filter</th><th>Date</th></tr></thead>
+    <tbody>
+      {% for s in past_searches %}
+      <tr>
+        <td>{{ s.search_query }}</td>
+        <td>{{ s.department_filter or '-' }}</td>
+        <td>{{ s.searched_on.strftime('%d %b %Y, %I:%M %p') }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="3" class="text-muted">No searches yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<h4 class="section-title"><i class="bi bi-journal-check"></i> Borrowing History</h4>
+<div class="table-responsive">
+  <table class="table table-striped bg-white">
+    <thead><tr><th>Book</th><th>Issued On</th><th>Returned On</th><th>Status</th></tr></thead>
+    <tbody>
+      {% for rec in past_issues %}
+      <tr>
+        <td>{{ rec.book.title }}</td>
+        <td>{{ rec.issued_on.strftime('%d %b %Y') }}</td>
+        <td>{{ rec.returned_on.strftime('%d %b %Y') if rec.returned_on else '-' }}</td>
+        <td>
+          {% if rec.is_returned %}
+            <span class="badge bg-secondary">Returned</span>
+          {% else %}
+            <span class="badge bg-success">With You</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4" class="text-muted">No borrowing history yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<a href="{{ url_for('student.dashboard') }}" class="btn btn-outline-secondary">&larr; Back to Dashboard</a>
+{% endblock %}

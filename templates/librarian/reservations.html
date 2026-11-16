@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Waitlist - GranthAI{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <h1><i class="bi bi-bookmark-star"></i> Reservation Waitlist</h1>
+  <p>When a book is returned, the oldest waiting student is automatically marked "fulfilled" here for you to contact.</p>
+</div>
+
+<h4 class="section-title">Currently Waiting</h4>
+<div class="table-responsive mb-4">
+  <table class="table table-striped bg-white">
+    <thead><tr><th>Book</th><th>Student</th><th>Email</th><th>Requested On</th></tr></thead>
+    <tbody>
+      {% for r in waiting %}
+      <tr>
+        <td>{{ r.book.title }}</td>
+        <td>{{ r.student.name }}</td>
+        <td>{{ r.student.email }}</td>
+        <td>{{ r.requested_on.strftime('%d %b %Y') }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4" class="text-muted">No one is currently waiting.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<h4 class="section-title">Recently Fulfilled (notify these students)</h4>
+<div class="table-responsive">
+  <table class="table table-striped bg-white">
+    <thead><tr><th>Book</th><th>Student</th><th>Email</th></tr></thead>
+    <tbody>
+      {% for r in fulfilled %}
+      <tr>
+        <td>{{ r.book.title }}</td>
+        <td>{{ r.student.name }}</td>
+        <td>{{ r.student.email }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="3" class="text-muted">Nothing fulfilled yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

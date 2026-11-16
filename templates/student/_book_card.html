@@ -1,0 +1,26 @@
+<div class="col-md-4">
+  <a href="{{ url_for('student.book_detail', book_id=book.id) }}" class="text-decoration-none text-dark">
+    <div class="card-book p-3 d-flex flex-row">
+      <div class="book-spine me-3"></div>
+      <div>
+        <div class="card-title mb-1">
+          {% if book.item_type == 'magazine' %}<i class="bi bi-newspaper"></i>{% else %}<i class="bi bi-book"></i>{% endif %}
+          {{ book.title }}
+        </div>
+        {% if book.author %}<div class="small text-muted mb-1">by {{ book.author }}</div>{% endif %}
+        <div class="mb-2">
+          {% if book.department %}<span class="badge badge-dept me-1">{{ book.department }}</span>{% endif %}
+          <span class="badge badge-level-{{ book.level }}">{{ book.level }}</span>
+        </div>
+        <div class="small">
+          {% if book.is_available %}
+            <span class="availability-dot dot-available"></span>Available ({{ book.available_copies }})
+          {% else %}
+            <span class="availability-dot dot-unavailable"></span>Issued Out
+          {% endif %}
+          &middot; <i class="bi bi-geo-alt"></i> {{ book.shelf_location }}
+        </div>
+      </div>
+    </div>
+  </a>
+</div>

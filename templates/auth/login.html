@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Login - GranthAI{% endblock %}
+{% block content %}
+<div class="auth-card">
+  <div class="text-center mb-3">
+    <i class="bi bi-book-half" style="font-size:2.5rem; color:#6B2C2C;"></i>
+  </div>
+  <h2 class="text-center mb-4">Welcome to SGMCOE Library</h2>
+  <form method="post">
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" name="email" class="form-control" required autofocus>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-granthai w-100 py-2">Log In</button>
+  </form>
+  <p class="text-center mt-3 mb-0">
+    New student? <a href="{{ url_for('auth.register') }}">Register here</a>
+  </p>
+  <hr>
+  <p class="text-muted small text-center mb-0">
+    Demo librarian: librarian@granthai.edu / librarian123<br>
+    Demo student: demo.student@gmail.com / student123
+  </p>
+</div>
+{% endblock %}

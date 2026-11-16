@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}Librarian Dashboard - GranthAI{% endblock %}
+{% block content %}
+
+<div class="page-hero">
+  <h1><i class="bi bi-speedometer2"></i> Librarian Dashboard</h1>
+  <p>Manage the catalog, issue/return books, and keep students informed.</p>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="stat-card stat-maroon">
+      <div class="stat-number">{{ total_books }}</div>
+      <div>Total Books</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stat-card stat-gold">
+      <div class="stat-number">{{ total_magazines }}</div>
+      <div>Magazines</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stat-card stat-forest">
+      <div class="stat-number">{{ total_students }}</div>
+      <div>Registered Students</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="stat-card stat-wood">
+      <div class="stat-number">{{ currently_issued }}</div>
+      <div>Books Currently Issued</div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6">
+    <div class="card-book p-3">
+      <h5><i class="bi bi-exclamation-triangle text-danger"></i> Out of Stock ({{ low_stock|length }})</h5>
+      {% for b in low_stock %}
+        <div>{{ b.title }} <span class="badge badge-dept">{{ b.department }}</span></div>
+      {% else %}
+        <p class="text-muted mb-0">Everything currently has at least one copy available.</p>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card-book p-3">
+      <h5><i class="bi bi-bookmark-star text-warning"></i> Pending Waitlist Requests: {{ pending_reservations }}</h5>
+      <a href="{{ url_for('librarian.reservations') }}" class="btn btn-sm btn-granthai mt-2">View Waitlist</a>
+    </div>
+  </div>
+</div>
+
+<div class="row g-2 mb-4">
+  <div class="col-md-3"><a href="{{ url_for('librarian.add_book') }}" class="btn btn-gold w-100"><i class="bi bi-plus-circle"></i> Add New Item</a></div>
+  <div class="col-md-3"><a href="{{ url_for('librarian.books_list') }}" class="btn btn-granthai w-100"><i class="bi bi-journal-bookmark"></i> Manage Catalog</a></div>
+  <div class="col-md-3"><a href="{{ url_for('librarian.issue_book') }}" class="btn btn-granthai w-100"><i class="bi bi-arrow-left-right"></i> Issue / Return</a></div>
+  <div class="col-md-3"><a href="{{ url_for('librarian.announcements') }}" class="btn btn-granthai w-100"><i class="bi bi-megaphone"></i> Post Announcement</a></div>
+</div>
+
+<h4 class="section-title"><i class="bi bi-journal-plus"></i> Recently Added Items</h4>
+<div class="table-responsive">
+  <table class="table table-striped bg-white">
+    <thead><tr><th>Title</th><th>Department</th><th>Type</th><th>Available</th><th>Added On</th></tr></thead>
+    <tbody>
+      {% for b in recent_books %}
+      <tr>
+        <td>{{ b.title }}</td>
+        <td>{{ b.department or '-' }}</td>
+        <td>{{ b.item_type|capitalize }}</td>
+        <td>{{ b.available_copies }} / {{ b.total_copies }}</td>
+        <td>{{ b.added_on.strftime('%d %b %Y') }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

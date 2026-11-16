@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Register - GranthAI{% endblock %}
+{% block content %}
+<div class="auth-card">
+  <div class="text-center mb-3">
+    <i class="bi bi-mortarboard" style="font-size:2.5rem; color:#6B2C2C;"></i>
+  </div>
+  <h2 class="text-center mb-4">New Student Registration</h2>
+  <form method="post">
+    <div class="mb-3">
+      <label class="form-label">Full Name</label>
+      <input type="text" name="name" class="form-control" required autofocus>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Gmail Address</label>
+      <input type="email" name="email" class="form-control" placeholder="you@gmail.com" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Department</label>
+      <select name="department" class="form-select" required>
+        {% for d in departments %}
+          <option value="{{ d }}">{{ d }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input type="password" name="password" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-granthai w-100 py-2">Create Account</button>
+  </form>
+  <p class="text-center mt-3 mb-0">
+    Already registered? <a href="{{ url_for('auth.login') }}">Log in</a>
+  </p>
+</div>
+{% endblock %}
